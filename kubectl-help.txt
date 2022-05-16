@@ -1,0 +1,154 @@
+
+- RUN
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#run
+
+kubectl run {NAME} --image={image} [--env="{key}={value}"] [--port={port}] [--dry-run={server|client}] [--overrides={inline-json}] [--command] -- [COMMAND] [args...]
+
+-- Cria um pod a partir de uma imagem
+kubectl run {pod-name} --image={image-name}
+
+> kubectl run nginx --image=nginx
+
+
+
+
+- CREATE
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#create
+
+-- Cria um recurso a partir de um arquivo (yaml)
+
+kubectl create -f {FILENAME}
+
+> kubectl create -f ./hello-world/nginx.pod.yaml
+> kubectl create -f ./hello-world/nginx.dp.yaml --save-config
+
+
+
+- DELETE
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#delete
+
+kubectl delete ([-f {FILENAME}] | [-k {DIRECTORY}] | {TYPE} [({NAME} | -l {label} | --all)])
+
+-- deletar um pod existente
+
+kubectl delete Pod {NAME}
+
+> kubectl delete Pod nginx
+> kubectl delete deployment hello-world-dp-nginx
+
+
+
+- GET
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#get
+
+-- lister todos os pods
+kubectl get pods
+
+-- lister todos os pods com informações adicionais
+kubectl get pods -o wide
+
+-- lister todas as ReplicaSets
+kubectl get rs
+
+
+
+
+- DESCRIBE
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#describe
+
+kubectl describe (-f {FILENAME} | {TYPE} [{NAME_PREFIX} | -l {label}] | {TYPE/NAME})
+
+-- descrever um pod
+
+kubectl describe pods/{pod-name}
+
+> kubectl describe pods/nginx
+
+-- descrever uma ReplicaSet
+
+kubectl describe rs/{rs-name}
+
+> kubectl describe rs/hello-world-rs-nginx
+
+
+
+
+- REPLACE
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#replace
+
+kubectl replace -f {FILENAME}
+
+> kubectl replace -f ./hello-world/nginx.pod.yaml
+
+
+
+
+- SCALE
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#scale
+
+kubectl scale [--resource-version={version}] [--current-replicas={count}] --replicas={COUNT} (-f {FILENAME} | TYPE {NAME})
+
+> kubectl scale --replicas=3 rs/foo
+
+> kubectl scale --replicas=3 -f foo.yaml
+
+
+
+
+- APPLY
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#apply
+
+kubectl apply (-f FILENAME | -k DIRECTORY)
+
+> kubectl apply -f ./hello-world/nginx.dp.yaml
+
+
+
+
+- ROLLOUT
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#rollout
+
+kubectl rollout SUBCOMMAND
+
+
+-- rollout STATUS
+
+kubectl rollout status (TYPE NAME | TYPE/NAME) [flags]
+
+---- status de um deployment
+
+kubectl rollout status deployment/{name}
+
+> kubectl rollout status deployment/hello-world-dp-nginx
+
+
+-- rollout HISTORY
+
+kubectl rollout history (TYPE NAME | TYPE/NAME) [flags]
+
+---- histórico de um deployment
+
+kubectl rollout history deployment/{name}
+
+> kubectl rollout history deployment/hello-world-dp-nginx
+
+
+-- rollout UNDO
+
+kubectl rollout undo (TYPE NAME | TYPE/NAME) [flags]
+
+---- rollback de um deploy
+
+kubectl rollout undo deployment/{name}
+kubectl rollout undo daemonset/abc --to-revision={number}
+
+> kubectl rollout undo deployment/hello-world-dp-nginx

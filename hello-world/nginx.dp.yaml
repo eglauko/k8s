@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  hello-world-dp-nginx
+  namespace: default
+  labels:
+    app:  hello-world-dp-nginx
+spec:
+  selector:
+    matchLabels:
+      app: hello-world-dp-nginx
+  replicas: 5
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app:  hello-world-dp-nginx
+    spec:
+      containers:
+      - name:  hello-world-dp-nginx
+        image:  nginx:1.17.1
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort:  80
+      restartPolicy: Always
