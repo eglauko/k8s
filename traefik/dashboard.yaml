@@ -9,5 +9,5 @@ spec:
     - match: Host(`traefik.localhost`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
       kind: Rule
       services:
-        - name: api@internal
+        - name: traefik-daemon-set
           kind: TraefikService
