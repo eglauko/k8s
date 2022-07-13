@@ -3,7 +3,7 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: whoami5
+  name: whoami
   # namespace: whoami5
   labels:
     allow.http: "false"
@@ -12,14 +12,14 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      application: whoami5
+      application: whoami
   template:
     metadata:
       labels:
-        application: whoami5
+        application: whoami
     spec:
       containers:
-      - name: whoami5
+      - name: whoami
         image: jwilder/whoami
         ports:
         - containerPort: 8000
@@ -31,7 +31,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: whoami5
+  name: whoami
   # namespace: whoami5
 spec:
   type: ClusterIP
@@ -39,26 +39,27 @@ spec:
   - port: 80 # Porta a ser exposta pelo SERVICE
     targetPort: 8000 # Porta que a aplicação está rodando no POD
   selector:
-    application: whoami5
+    application: whoami
 
 
 ---
 kind: Ingress
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 metadata:
-  name: whoami5
+  name: whoami
   annotations:
     kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.tls: "true"
     traefik.ingress.kubernetes.io/router.tls.certresolver: default
 spec:
   rules:
-    - host: app.rancher.<SEU_DOMINIO>
+    - host: whoami.apps.lanches.click
       http:
         paths:
-          - backend:
-              serviceName: whoami5
-              servicePort: 80
-
-
-
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: whoami
+                port:
+                  number: 80
